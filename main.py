@@ -1,5 +1,8 @@
 from pygame import *
 from time import time as timer
+score_player1 = 0
+score_player2 = 0
+
 
 win_width = 600
 win_height = 500
@@ -40,9 +43,11 @@ ball = GameSprite("tennis.png",200,200,4,50,50)
 
 
 font.init()
-font = font.Font(None, 35)
-lose1 = font.render("Player One Lose", True,(180, 0, 0))
-lose2 = font.render("Player Two Lose", True,(180, 0, 0))
+font_lose = font.Font(None, 35)
+font_score = font.Font(None,25)
+lose1 = font_lose.render("Player One Lose", True,(180, 0, 0))
+lose2 = font_lose.render("Player Two Lose", True,(180, 0, 0))
+
 game = True
 fps = 60
 clock = time.Clock()
@@ -79,11 +84,17 @@ while game:
         #lose con player 1
         if ball.rect.x < 0:
             window.blit(lose1,(200,200))
+            score_player2 += 1
             finish = True
         #lose con player 2
         if ball.rect.x > win_width:
             window.blit(lose2,(200,200))
+            score_player1 += 1
             finish = True
+        score1 = font_score.render('score player 1: ' + str(score_player1), True, (225, 0, 0))
+        score2 = font_score.render('score player 2: ' + str(score_player2), True, (0, 0, 255))
+        window.blit(score1,(10,15))
+        window.blit(score2,(win_width - 150,15))
         display.update()
     else:
         finish = False
