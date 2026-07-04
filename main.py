@@ -3,7 +3,8 @@ from pygame import *
 win_width = 600
 win_height = 500
 window = display.set_mode((win_width, win_height))
-background = (30, 255, 50)
+display.set_caption("ping pong Game")
+background = (120, 255, 50)
 window.fill(background)
 
 class GameSprite(sprite.Sprite):
@@ -38,7 +39,8 @@ ball = GameSprite("tennis.png",200,200,4,50,50)
 game = True
 fps = 60
 clock = time.Clock()
-
+speed_x = 3
+speed_y = 3
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -52,6 +54,16 @@ while game:
     rackek1.update_1()
     rackek2.update_2()
 
+    ball.rect.x += speed_x
+    ball.rect.y += speed_y
 
+    #if ball touch wall
+    if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+        speed_y *= -1
+
+    # if ball touch racket
+    if sprite.collide_rect(rackek1, ball) or sprite.collide_rect(rackek2, ball):
+        speed_x *= -1
+        speed_y *= -1
     display.update()
     clock.tick(fps)
