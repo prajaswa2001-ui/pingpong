@@ -1,4 +1,5 @@
 from pygame import *
+from time import time as timer
 
 win_width = 600
 win_height = 500
@@ -78,8 +79,21 @@ while game:
         #lose con player 1
         if ball.rect.x < 0:
             window.blit(lose1,(200,200))
+            finish = True
         #lose con player 2
         if ball.rect.x > win_width:
             window.blit(lose2,(200,200))
+            finish = True
         display.update()
+    else:
+        finish = False
+
+
+
+
+        time.delay(3000)
+        rackek1 = Player("racket.png", 30,200,4,50,150)
+        rackek2 = Player("racket.png", 520,200,4,50,150)
+        ball = GameSprite("tennis.png",200,200,4,50,50)
+
     clock.tick(fps)
