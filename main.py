@@ -36,34 +36,50 @@ class Player(GameSprite):
 rackek1 = Player("racket.png", 30,200,4,50,150)
 rackek2 = Player("racket.png", 520,200,4,50,150)
 ball = GameSprite("tennis.png",200,200,4,50,50)
+
+
+font.init()
+font = font.Font(None, 35)
+lose1 = font.render("Player One Lose", True,(180, 0, 0))
+lose2 = font.render("Player Two Lose", True,(180, 0, 0))
 game = True
 fps = 60
 clock = time.Clock()
 speed_x = 3
 speed_y = 3
+
+finish = False
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
+    if finish != True:
+        window.fill(background)
 
-    window.fill(background)
-    rackek1.reset()
-    rackek2.reset()
-    ball.reset()
+        window.fill(background)
+        rackek1.reset()
+        rackek2.reset()
+        ball.reset()
 
-    rackek1.update_1()
-    rackek2.update_2()
+        rackek1.update_1()
+        rackek2.update_2()
 
-    ball.rect.x += speed_x
-    ball.rect.y += speed_y
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
 
-    #if ball touch wall
-    if ball.rect.y > win_height - 50 or ball.rect.y < 0:
-        speed_y *= -1
+        #if ball touch wall
+        if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+            speed_y *= -1
 
-    # if ball touch racket
-    if sprite.collide_rect(rackek1, ball) or sprite.collide_rect(rackek2, ball):
-        speed_x *= -1
-        speed_y *= -1
-    display.update()
+        # if ball touch racket
+        if sprite.collide_rect(rackek1, ball) or sprite.collide_rect(rackek2, ball):
+            speed_x *= -1
+            speed_y *= -1
+        #lose con player 1
+        if ball.rect.x < 0:
+            window.blit(lose1,(200,200))
+        #lose con player 2
+        if ball.rect.x > win_width:
+            window.blit(lose2,(200,200))
+        display.update()
     clock.tick(fps)
